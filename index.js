@@ -14,10 +14,13 @@ var data = {
 	temp: randomItem(items),
 	humidity: randomItem(items)
   },
-  id: "2017:03:14:08:01:22"
+  id: "0"
 };
 
 var arrays = [data];
+var id = 1;
+var rightNow = new Date();
+var now = rightNow.toISOString().slice(0,10).replace(/-/g,"");
 
 app.get('/data', function (req, res) {
 	arrays.push({
@@ -25,19 +28,12 @@ app.get('/data', function (req, res) {
 		temp: randomItem(items),
 		humidity: randomItem(items)
 	  },
-	  id: "2017:03:14:08:01:22"
+	  id: id+""
 	});
+	id++;
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({
-	headers: {
-		'Access-Control-Allow-Origin': "*",
-		'Access-Control-Allow-Credentials': true
-},
-statusCode: 200,
-body: arrays
-}));
-	
-
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.send(JSON.stringify({body:arrays}));
 
 });
 
